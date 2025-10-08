@@ -25,3 +25,5 @@ def new_cars_view(request):
     else:
         new_cars_form = CarModelForm()
     return render(request, 'new_car.html', {'new_car_form': new_cars_form})
+
+
