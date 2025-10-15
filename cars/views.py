@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from cars.models import Car
 from cars.forms import CarModelForm
+from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
@@ -16,8 +19,14 @@ class CarsListView(ListView):
         if search:
             cars = cars.filter(model__icontains=search)
         return cars
+    
+class CarDetailView(DetailView):
+    model = Car
+    template_name = 'car_detail.html'
+    context_object_name = 'car'       
 
 
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class NewCarCreateView(CreateView):
     model = Car
     form_class = CarModelForm
@@ -25,12 +34,8 @@ class NewCarCreateView(CreateView):
     success_url = '/cars/'
 
 
-class CarDetailView(DetailView):
-    model = Car
-    template_name = 'car_detail.html'
-    context_object_name = 'car'   
 
-
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class CarUpdateView(UpdateView):
     model = Car
     form_class = CarModelForm
@@ -38,6 +43,7 @@ class CarUpdateView(UpdateView):
     success_url = '/cars/'     
 
 
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class CarDeleteView(DeleteView):
     model = Car
     template_name = 'car_delete.html'
