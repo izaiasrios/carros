@@ -1,7 +1,7 @@
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import pre_save, post_save, post_delete
+from django.db.models import Sum
 from django.dispatch import receiver
 from cars.models import Car, CarInventory
-from django.db.models import Sum
 
 
 def car_inventory_update():
@@ -18,6 +18,7 @@ def car_inventory_update():
 @receiver(post_save, sender=Car)
 def car_post_save(sender, instance, **kwargs):
     car_inventory_update()
+
 
 @receiver(post_delete, sender=Car)
 def car_post_delete(sender, instance, **kwargs):
