@@ -7,6 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
+
 class CarsListView(ListView):
     model = Car
     template_name = 'cars.html'
